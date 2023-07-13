@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-http
+spec:
+  replicas: 1
+  template:
+     spec:
+      securityContext:
+        runAsUser: 10005
+        runAsGroup: 10005
+        fsGroup: 10005
