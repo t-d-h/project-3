@@ -18,9 +18,9 @@ stage('Code checking') {
     }
 }
 
-stage('Confirm to deploy') {
-    input message: "All test passed, do you want to build the image?", ok: 'OK'
-}
+// stage('Confirm to build container image') {
+//     input message: "All test passed, do you want to build the image?", ok: 'OK'
+// }
 
 stage('Building-pushing container image') {
     node("k1") {
@@ -32,9 +32,9 @@ stage('Building-pushing container image') {
     }
 }
 
-stage('Confirm to deploy') {
-    input message: "Do you want to deploy it on dev?", ok: 'OK'
-}
+// stage('Confirm to deploy') {
+//     input message: "Do you want to deploy it on dev?", ok: 'OK'
+// }
 
 stage('Deploy on dev') {
     node("k1") {
