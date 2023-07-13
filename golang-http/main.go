@@ -7,7 +7,7 @@ import (
 
 func root(w http.ResponseWriter, req *http.Request) {
 
-    fmt.Fprintf(w, "Web site version 2\n")
+    fmt.Fprintf(w, "Ha Noi, ngay 13 thang 7\n")
 }
 
 
