@@ -12,7 +12,7 @@ stage('Code checking') {
 stage('Performance check') {
     node("k1") {
         sh(script: "timeout 60 go run golang-http/main.go &&")
-        def RunCheck = sh(script: "for i in `seq 1 20`; do curl localhost:8090; done", returnStatus: true)
+        def RunCheck = sh(script: "./golang-http/test.sh", returnStatus: true)
         if (RunCheck !=0 ) {
             error("Performance test failed")
         }
