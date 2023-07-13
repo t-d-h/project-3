@@ -10,7 +10,7 @@ spec:
       - name: app
         image: registry.t-d-h.net/golang-http:v1
         command:
-        - /main
+        - .main
         resources:
           limits: 
             cpu: 2

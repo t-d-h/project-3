@@ -18,17 +18,30 @@ stage('Code checking') {
     }
 }
 
+stage('Confirm to deploy') {
+    input message: "All test passed, do you want to build the image?", ok: 'OK'
+}
 
 stage('Building-pushing container image') {
     node("k1") {
         git branch: 'main', url: "https://github.com/t-d-h/project-3.git"
         def getVersion = sh(script: "cat golang-http/info", returnStdout: true)
-        def buildContainerImage = sh(script: "docker build -t ${getVersion} golang-http/")
-        def pushIMGtoRegistry = sh(script: "docker push ${getVersion}")
+        buildContainerImage = sh(script: "docker build -t ${getVersion} golang-http/")
+        pushIMGtoRegistry = sh(script: "docker push ${getVersion}")
         println("========End of container building stage========")
     }
 }
 
 stage('Confirm to deploy') {
-    input message: "All test passed, do you want to deploy it on dev?", ok: 'OK'
+    input message: "Do you want to deploy it on dev?", ok: 'OK'
+}
+
+stage('Deploy on dev') {
+    node("k1") {
+        git branch: 'main', url: "https://github.com/t-d-h/project-3.git"
+        def getVersion = sh(script: "cat golang-http/info", returnStdout: true)
+        sh(script: "cd k8s-manifest/golang-http/overlays/dev && kustomize edit set image ${getVersion}")
+        sh(script: "kubectl apply -k k8s-manifest/golang-http/overlays/dev")
+        println("========End of container building stage========")
+    }
 }
